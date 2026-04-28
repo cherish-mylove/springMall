@@ -1,6 +1,5 @@
 # 민감한 설정 파일
 src/main/resources/application.properties
-src/main/resources/application-example.properties
 
 # 빌드 파일
 build/
