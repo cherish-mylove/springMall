@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 목록</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<h4>전체 주문 목록</h4>
+
+<!-- 주문 없을 때 -->
+<div th:if="${#lists.isEmpty(orders)}">
+    <p>주문 내역이 없습니다</p>
+</div>
+
+<!-- 주문 있을 때 -->
+<div th:each="order : ${orders}">
+    <p th:text="${order.username + ' | ' + order.itemName + ' | ' + order.price + '원'}"></p>
+</div>
+</body>
+</html>

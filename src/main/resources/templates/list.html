@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<form action="/search" method="POST">
+    <input name="search" th:value="${keyword}"
+           placeholder="검색어 입력"
+           style="display: inline">
+    <button>검색</button>
+</form>
+
+<div class="card" th:each="item : ${items}" th:id="'item-' + ${item.id}">
+    <img src="https://placehold.co/300">
+    <div>
+        <a th:href="@{'/detail/' + ${item.id}}">
+            <h4 th:text="${item.title}"></h4>
+        </a>
+        <p th:text="${item.price}"></p>
+        <a th:href="@{'/update/' + ${item.id}}">✏️</a>
+
+        <!-- 관리자만 삭제 버튼 보임 -->
+        <span sec:authorize="hasAuthority('관리자')">
+                <button th:onclick="
+                    fetch('/delete?id=[[${item.id}]]', { method : 'DELETE' })
+                    .then(r => r.text())
+                    .then((a) => {
+                        console.log(a)
+                        document.getElementById('item-' + [[${item.id}]]).remove()
+                    })">🗑️
+                </button>
+            </span>
+    </div>
+</div>
+
+<div>
+    <a th:if="${currentPage > 1}"
+       th:href="@{/list(page=${currentPage - 1})}">이전</a>
+
+    <!-- 페이지 번호 -->
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{/list(page=${i})}"
+           th:text="${i}"
+           th:style="${i == currentPage} ? 'font-weight:bold; color:red' : ''">
+        </a>
+    </span>
+
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{/list(page=${currentPage + 1})}">다음</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 에러 메시지 -->
+    <div th:if="${error}" style="color:red">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form action="/signup" method="POST">
+        <div>
+            아이디:
+            <input name="username" th:value="${prevUsername}">
+        </div>
+        <div>
+            비번:
+            <input name="password" type="password" id="password">
+            <button type="button" onclick="togglePassword()">👁️</button>
+            <p style="color:gray; font-size:12px">
+                8자 이상, 영문 + 숫자 + 특수문자(!@#$%^& 등) 포함
+            </p>
+        </div>
+        <div>
+            성명:
+            <input name="displayName" th:value="${prevDisplayName}">
+        </div>
+        <button type="submit">전송</button>
+    </form>
+
+    <script>
+        function togglePassword() {
+            var input = document.getElementById('password');
+            if (input.type === 'password') {
+                input.type = 'text';   // 비밀번호 보이게
+            } else {
+                input.type = 'password'; // 비밀번호 숨기기
+            }
+        }
+    </script>
+</body>
+</html>

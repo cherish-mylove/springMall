@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<form action="/add" method="POST" th:object="${item}">  <!-- form 전체에 "나는 item 객체를 다룰 거야" 선언 -->
+    <div>
+        제목:
+        <input name="title" th:value="*{title}">
+        <!-- title 필드 에러만 표시 -->
+        <span th:if="${#fields.hasErrors('title')}"
+              th:errors="*{title}"
+              style="color:red">
+        </span>
+    </div>
+    <div>
+        가격:
+        <input name="price" type="number" th:value="*{price}">
+        <span th:if="${#fields.hasErrors('price')}"
+              th:errors="*{price}"
+              style="color:red">
+        </span>
+    </div>
+    <div>
+        개수:
+        <input name="count" type="number" placeholder="count" th:value="*{count}">
+        <span th:if="${#fields.hasErrors('count')}"
+              th:errors="*{count}"
+              style="color:red">
+        </span>
+    </div>
+    <button type="submit">전송</button>
+</form>
+
+<input type="file" onchange="getURL(this)">
+<img src="">
+<script>
+    async function getURL(e) {
+        let name = encodeURIComponent(e.files[0].name)
+        console.log(e.files[0].name)
+        let result = await fetch('/presigned-url?filename=' + name)
+        result = await result.text()
+        console.log(result)
+
+        let 결과 = await fetch(result, {
+            method : 'PUT',
+            body : e.files[0]
+        })
+
+        console.log(결과)
+        console.log(결과.url.split("?")[0])
+
+        if (결과.ok) {
+            document.querySelector('img').src = 결과.url.split("?")[0]
+        }
+    }
+</script>
+
+</body>
+</html>

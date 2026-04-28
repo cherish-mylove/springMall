@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글 수정</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<h4>댓글 수정</h4>
+
+<!-- 에러 메시지 -->
+<div th:if="${commentError}" style="color:red">
+    <p th:text="${commentError}"></p>
+</div>
+
+<form action="/comment/edit" method="POST">
+    <!-- 숨김 필드 -->
+    <input type="hidden" name="id" th:value="${comment.id}">
+    <input type="hidden" name="itemId" th:value="${itemId}">
+
+    <!-- 기존 댓글 내용 유지 -->
+    <input name="content" th:value="${comment.content}">
+    <button type="submit">수정완료</button>
+
+    <!-- 취소 버튼 -->
+    <a th:href="@{'/detail/' + ${itemId}}">취소</a>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<h4>마이페이지</h4>
+
+<p>아이디: <span th:text="${username}"></span></p>
+<p>닉네임: <span th:text="${displayName}"></span></p>
+
+<h4>주문 내역</h4>
+
+<!-- 주문 없을 때 -->
+<div th:if="${#lists.isEmpty(salesList)}">
+    <p>주문 내역이 없습니다</p>
+</div>
+
+<!-- 주문 있을 때 -->
+<div th:each="sales : ${salesList}">
+    <p th:text="|${sales.itemName} / ${sales.count}개 / ${sales.price}원 / ${sales.created}|">
+    </p>
+</div>
+
+<div sec:authentication="principal"></div>
+<div sec:authentication="principal.username"></div>
+<div sec:authorize="hasAuthority('일반유저')">
+    <h4>이 유저는 일반 유저 권한임</h4> <!-- '일반유저'라는 권한을 가진 사람만 볼 수 있음 -->
+</div>
+
+</body>
+</html>

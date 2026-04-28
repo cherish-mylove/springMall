@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <div class="detail">
+        <h4>상세페이지</h4>
+        <img src="https://placehold.co/300">
+        <h4 th:text="${item.title}">금도금 바지</h4>
+        <p th:text="${item.price + '원'}">7억</p>
+    </div>
+
+    <div th:each="comment : ${comments}" th:id="'comment-' + ${comment.id}">
+        <p th:text="${comment.username + ': ' + comment.content}"></p>
+        <span th:if="${#authentication.name == comment.username}">
+        <a th:href="@{'/comment/edit/' + ${comment.id} + '?itemId=' + ${item.id}}">✏️</a>
+        <button th:onclick="deleteComment([[${comment.id}]], [[${item.id}]])">🗑️</button>
+    </span>
+    </div>
+
+
+    <!-- 댓글 에러 메시지 -->
+    <div th:if="${commentError}" style="color:red">
+        <p th:text="${commentError}"></p>
+    </div>
+
+    <!-- 댓글 작성 폼 -->
+    <form action="/comment" method="POST">
+        <input name="content">
+        <input name="itemId" th:value="${item.id}" style="display:none">
+        <button type="submit">전송</button>
+    </form>
+
+    <!-- 주문 폼 -->
+    <form action="/order" method="post">
+        <input name="title" th:value="${item.title}">
+        <input name="price" th:value="${item.price}">
+        <input name="count" placeholder="count">
+        <button>주문하기</button>
+    </form>
+
+    <script>
+        function deleteComment(commentId, itemId) {
+            fetch('/deleteComment?id=' + commentId + '&itemId=' + itemId, {
+                method: 'DELETE'
+            })
+            .then(r => r.text())
+            .then(result => {
+                if (result === '삭제완료') {
+                    // 해당 댓글만 화면에서 제거
+                    document.getElementById('comment-' + commentId).remove();
+                } else {
+                    alert(result); // 에러 메시지 표시
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>

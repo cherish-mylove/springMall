@@ -1,0 +1,15 @@
+# 민감한 설정 파일
+src/main/resources/application.properties
+src/main/resources/application-example.properties
+
+# 빌드 파일
+build/
+out/
+.gradle/
+
+# 인텔리제이 설정
+.idea/
+*.iml
+
+# 로그
+*.log

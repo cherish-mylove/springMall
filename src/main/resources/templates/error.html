@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>오류 발생</title>
+</head>
+<body>
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<h4>😢 오류가 발생했습니다</h4>
+
+<!-- 사용자한테 보여줄 메시지 -->
+<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+<p th:unless="${errorMessage}">잠시 후 다시 시도해주세요</p>
+
+<!-- 관리자한테만 상세 에러 보여줌 -->
+<div sec:authorize="hasAuthority('관리자')">
+    <hr>
+    <h4>🔧 개발자 정보</h4>
+    <p th:text="${status}"></p>
+    <p th:text="${error}"></p>
+    <p th:text="${path}"></p>
+    <p th:text="${message}"></p>
+    <p th:text="${exception}"></p>
+</div>
+
+<a href="/list">목록으로 돌아가기</a>
+</body>
+</html>
