@@ -1,0 +1,652 @@
+{
+	"info": {
+		"_postman_id": "65526ec8-d864-4de4-acd0-b9f08b478668",
+		"name": "SpringMall API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42962684"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "로그인",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "choi",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "GET /list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답시간이 2000ms 이하여야 한다\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답 본문이 비어있지 않아야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /detail/ -존재하는 상품",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답시간이 2000ms 이하여야 한다\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답 본문에 상품 상세 페이지가 포함되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"detail\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/detail/999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"detail",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /detail/ -존재하지 않는 상품",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"존재하지 않는 상품 조회 시 200이 반환된다 (버그: 404 반환되어야 함)\", function () {\r",
+									"    pm.response.to.have.status(200); // 현재 동작 기록용\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[BUG-001] 존재하지 않는 상품 조회 시 404를 반환해야 한다\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"    // 현재 Fail → 개발자 수정 후 Pass 되어야 함\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/detail/15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"detail",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /search -정상 검색어",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"검색 결과 응답이 비어있지 않아야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/search?search=\"최현\"",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "\"최현\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search -존재하지 않는 검색어",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[BUG-002] 검색 결과 없을 때 안내 메시지가 노출되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"검색 결과가 없습니다\");\r",
+									"    // 현재 Fail → 개발자 수정 후 Pass 되어야 함\r",
+									"});\r",
+									"\r",
+									"pm.test(\"[BUG-003] 0페이지 링크가 노출되지 않아야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"page=0\");\r",
+									"    // 현재 Fail → 개발자 수정 후 Pass 되어야 함\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/search?search=존재하지 않는 검색어",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "존재하지 않는 검색어"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post /add -관리자 상품 등록",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"상품 등록 후 목록 페이지로 리다이렉트되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"list\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "테스트상품",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "count",
+									"value": "100",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /update -관리자 상품 수정",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"상품 수정 후 목록 페이지로 리다이렉트되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"list\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "25",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "테스트상품(수정2)",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "30000\n",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /delete - 관리자 상품 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"삭제 완료 메시지가 반환되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"삭제완료\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/delete?id=25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /delete - 존재하지 않는 상품 삭제 시도",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"존재하지 않는 상품 삭제 시 404를 반환해야 한다\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/delete?id=99999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "99999"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /update - 존재하지 않는 상품 수정 시도",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"존재하지 않는 상품 수정 시 목록 페이지로 리다이렉트되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"list\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"존재하지 않는 상품 수정 시 에러 메시지가 포함되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"존재하지 않는 상품입니다\"); // [수정]\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "9999",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "아무거나",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "GET /order/all - 전체 주문 조회 (관리자)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"주문 목록 페이지가 반환되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답시간이 2000ms 이하여야 한다\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/order/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"order",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /order - 주문 생성",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"상태코드가 200이어야 한다\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"주문 후 목록 페이지로 리다이렉트되어야 한다\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"list\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"응답시간이 2000ms 이하여야 한다\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "테스트상품(수정)",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "20000",
+									"type": "text"
+								},
+								{
+									"key": "count",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8090/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": []
+		}
+	]
+}
