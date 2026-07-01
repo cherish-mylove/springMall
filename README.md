@@ -39,7 +39,9 @@ Collection 파일: `/postman/SpringMall API Test.postman_collection.json`
 | BUG-003 | 검색 결과 없을 때 0페이지 링크 노출 | Medium |
 
 ## QA 포트폴리오
-https://app.notion.com/p/37f39bf63dea80b085ffeb2bff653875?v=38039bf63dea80fdbeea000c15a047e6
-https://app.notion.com/p/38639bf63dea80e497ddf9c5a343ca87?v=38639bf63dea80bdb9b4000c26c42c57
-https://web.postman.co/workspace/My-Workspace~199e3975-d717-46c4-86a5-97db59e15777/collection/42962684-65526ec8-d864-4de4-acd0-b9f08b478668?action=share&source=copy-link&creator=42962684
-https://github.com/cherish-mylove/playwright-saucedemo/tree/main
+
+- [Swag Labs 수동 테스트 케이스 (Notion)](https://app.notion.com/p/37f39bf63dea80b085ffeb2bff653875?v=38039bf63dea80fdbeea000c15a047e6)
+- [SpringMall Bug Report (Notion)](https://app.notion.com/p/38639bf63dea80e497ddf9c5a343ca87?v=38639bf63dea80bdb9b4000c26c42c57)
+- [SpringMall API 테스트 (Postman)](https://web.postman.co/workspace/My-Workspace~199e3975-d717-46c4-86a5-97db59e15777/collection/42962684-65526ec8-d864-4de4-acd0-b9f08b478668?action=share&source=copy-link&creator=42962684)
+- [SpringMall API 테스트 (GitHub)](https://github.com/cherish-mylove/springMall/tree/main/postman)
+- [Playwright UI 자동화 테스트 (GitHub)](https://github.com/cherish-mylove/playwright-saucedemo/tree/main)
