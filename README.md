@@ -42,3 +42,4 @@ Collection 파일: `/postman/SpringMall API Test.postman_collection.json`
 https://app.notion.com/p/37f39bf63dea80b085ffeb2bff653875?v=38039bf63dea80fdbeea000c15a047e6
 https://app.notion.com/p/38639bf63dea80e497ddf9c5a343ca87?v=38639bf63dea80bdb9b4000c26c42c57
 https://web.postman.co/workspace/My-Workspace~199e3975-d717-46c4-86a5-97db59e15777/collection/42962684-65526ec8-d864-4de4-acd0-b9f08b478668?action=share&source=copy-link&creator=42962684
+https://github.com/cherish-mylove/playwright-saucedemo/tree/main
